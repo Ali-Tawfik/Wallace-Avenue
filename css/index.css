@@ -38,6 +38,18 @@ body, html {
     max-height: 400px;
     max-width: 402px;
 }
+
+.stickynav {
+	height: 50px;
+  	top: 0;
+  	position: fixed;
+  	width: 100%;
+  	z-index: 9999;
+}
+.stickynav + .content {/*account for displacement*/
+  margin-top: 30px;
+}
+
 #navbar {
 	height: 50px;
 	font-size: 43px;
@@ -66,13 +78,13 @@ body, html {
 }
 
 #navbar a{
-	position: center;
 	color:#cccccc;
 }
 
 #booking{
 	background-color: #cccccc;
   	height: 40%;
+  	background-clip: content-box;
   	background-repeat: no-repeat;
   	background-size: cover;
   	position: relative;
@@ -213,9 +225,11 @@ body, html {
 
 .flexcontainer {
   display: flex;
+  width: 80%;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
+  margin-left:10%;
   align-items: center;
   align-content: start
 }
@@ -225,6 +239,20 @@ body, html {
   margin: 10px;
   flex: 999 999 auto;
 }
+.flexcontainer div {
+	text-align: center;
+	background-color:#000000; 
+	margin: 20px;
+}
+.fleximg{
+	margin-right: 40px;
+	margin-left: 40px;
+	padding: 5px;
+	height: 30vh;
+}
+
+
+
 .item {
   flex: 0 0 auto;
   margin: 10px;
