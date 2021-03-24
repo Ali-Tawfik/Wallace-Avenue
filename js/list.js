@@ -152,26 +152,45 @@ readJSON(data,'all');
 //function obtainList() 
 
 function readJSON(data,type)
-{
+{ 
+  //this will allow quickview to refresh every time the list has changed
+  var s=document.getElementById("refreshable");
+  s.remove();
+  var s = document.createElement('script');
+  s.id="refreshable";
+  s.src = 'js/quickview/quickview.js';
+  document.body.appendChild(s);
+
+
 	info= JSON.parse(data);
 	var flex = document.getElementById("flexcontainer");
 	for (i = 0; i < info.shop.length; i++) {
     if (type=='all'|| type == info.shop[i].type){
   		var div = document.createElement("div"); //div to hold img and info
-  		var img = document.createElement('img'); //holds img of object
+
+      var img = document.createElement('img'); //holds img of object
       var name = document.createElement("p");// text describing image
       var price = document.createElement("p");
       var br = document.createElement("BR");
       img.src ="shop/".concat(info.shop[i].name).concat(".png");//obtaining image
       img.classList.add("fleximg");
+      
 
+      /*    adds specific info for each element   */
       node=document.createTextNode(info.shop[i].name);
       name.appendChild(node);
       node=document.createTextNode("Price: $"+info.shop[i].price);
       price.appendChild(node); 
+      div.className="cd-item";
+
+      //add image quick view
+      link=document.createElement("a");
+      link.href="#"+i;
+      link.classList.add("cd-trigger");
 
       div.appendChild(img);
-      div.appendChild(name);
+      link.appendChild(name);
+      div.appendChild(link);
       div.appendChild(br);
       div.appendChild(price);
       flex.appendChild(div);
@@ -184,6 +203,7 @@ function Filter(type) {
   const myNode = document.getElementById("flexcontainer");
   myNode.innerHTML = '';
   readJSON(data,type);
+
 }
 
 
@@ -191,5 +211,23 @@ function Reset(){
   const myNode = document.getElementById("flexcontainer");
   myNode.innerHTML = '';
   readJSON(data,'all');
+
+}
+
+function setinfo(index)
+{// this function will set the information for the quickview
+  re= /#(\d*)/;//regex to find # coupled with a number of 1 or more digits
+  i=re.exec(index)[1];
+  info= JSON.parse(data);
+  divimg = document.getElementById("selected");
+  img=divimg.children[0];
+  img.src= "shop/".concat(info.shop[i].name).concat(".png");
+
+  // info printing on the quick view depending on the item type
+  info_div=document.getElementById("info");
+  info_div.children[0].innerHTML=info.shop[i].name;
+  info_div.children[1].innerHTML = "Product Type: "+ info.shop[i].type;
+  info_div.children[2].innerHTML= "Features: " +info.shop[i].features.toString();
+  info_div.children[3].innerHTML= "$"+info.shop[i].price;
 
 }
